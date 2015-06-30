@@ -11,6 +11,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class SorterTest {
@@ -30,13 +32,31 @@ public class SorterTest {
 
     @Test
     public void testBubblesort() {
-        Random random = new Random();
-        Integer[] arr = new Integer[SIZE];
-        for (int index = 0; index < arr.length; index++) {
-            arr[index] = random.nextInt();
-        }
+        Integer[] arr = getRandomArr();
+        List<Integer> list = Arrays.asList(arr);
         Sorter.bubblesort(arr);
-        assertEquals("bubblesort() failed.", true, Sorter.isSorted(arr));
+        assertEquals("bubblesort() on array failed.", true, Sorter.isSorted(arr));
+        Sorter.bubblesort(list);
+        assertEquals("bubblesort() on list failed.", true, Sorter.isSorted(list));
+    }
+
+    @Test
+    public void testGetBubbleSort() {
+        Integer[] arr = getRandomArr();
+        boolean initalSortedState = Sorter.isSorted(arr);
+        Integer[] sortedArr = Sorter.getBubblesort(arr);
+        assertEquals("getBubblesort() didn't return sorted array.", true, Sorter.isSorted(sortedArr));
+        assertEquals("getBubblesort() changed original array.", initalSortedState,
+                Sorter.isSorted(arr));
+    }
+
+    private Integer[] getRandomArr() {
+        Random random = new Random();
+        Integer[] result = new Integer[SIZE];
+        for (int index = 0; index < result.length; index++) {
+            result[index] = random.nextInt();
+        }
+        return result;
     }
 }
 
