@@ -5,36 +5,33 @@
  * Distributed under terms of the MIT license.
  */
 
-package io.kirmani.tools;
+package io.kirmani.tools.sort;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 public class Sorter {
-    public static <E extends Comparable<? super E>> void bubblesort(List<E> list) {
-        boolean done = false;
-        while (!done) {
-            done = true;
-            for (int index = 0; index < list.size() - 1; index++) {
-                if (list.get(index).compareTo(list.get(index + 1)) > 0) {
-                    E temp = list.get(index);
-                    list.set(index, list.get(index + 1));
-                    list.set(index + 1, temp);
-                    done = false;
-                }
-            }
-        }
-
+    public static <E extends Comparable<? super E>> void sort(Sortable sorter, List<E> list) {
+        sorter.sort(list);
     }
 
-    public static <E extends Comparable<? super E>> void bubblesort(E[] array) {
-        bubblesort(Arrays.asList(array));
+    public static <E extends Comparable<? super E>> void sort(Sortable sorter, E[] array) {
+        sorter.sort(Arrays.asList(array));
     }
 
-    public static <E extends Comparable<? super E>> E[] getBubblesort(E[] array) {
+    public static <E extends Comparable<? super E>> List<E> getSortedList(Sortable sorter,
+            List<E> list) {
+        List<E> copy = new ArrayList<E>(list);
+        sort(sorter, copy);
+        return copy;
+    }
+
+    public static <E extends Comparable<? super E>> E[] getSortedArray(Sortable sorter, E[] array) {
         E[] copy = getCopy(array);
-        bubblesort(copy);
+        sort(sorter, copy);
         return copy;
     }
 
@@ -58,4 +55,3 @@ public class Sorter {
         return copy;
     }
 }
-
