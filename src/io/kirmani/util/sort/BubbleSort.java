@@ -5,11 +5,13 @@
  * Distributed under terms of the MIT license.
  */
 
-package io.kirmani.tools.sort;
+package io.kirmani.util.sort;
 
 import java.util.List;
 
 public class BubbleSort extends BaseSort {
+    public static final String TAG = BubbleSort.class.getSimpleName();
+
     public static <E extends Comparable<? super E>> List<E> sort(List<E> list) {
         List<E> copy = getCopy(list);
         boolean done = false;
@@ -26,5 +28,8 @@ public class BubbleSort extends BaseSort {
         }
         return copy;
     }
-}
 
+    public static <E extends Comparable<? super E>> void printDiff(List<E> list) {
+        printDiff(TAG, list, sort(list));
+    }
+}

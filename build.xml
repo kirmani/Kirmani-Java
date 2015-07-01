@@ -20,7 +20,7 @@
     
     <target name="compile" depends="clean">
         <mkdir dir="${classes.dir}" />
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false" />
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false" debug="on" />
         <copy todir="${classes.dir}">
             <fileset dir="${src.dir}" excludes="**/*.java" />
         </copy>
@@ -46,7 +46,7 @@
         </java>
     </target>
     
-    <target name="junit" depends="jar">
+    <target name="test" depends="jar">
         <mkdir dir="${report.dir}" />
         <junit printsummary="yes">
             <classpath>

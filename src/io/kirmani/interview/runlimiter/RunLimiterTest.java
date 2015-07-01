@@ -11,8 +11,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import java.util.logging.Logger;
-
 public class RunLimiterTest {
     private static final long NANO_IN_SEC = 1000000000;
 
@@ -24,8 +22,8 @@ public class RunLimiterTest {
         int[] timesExecuted = new int[] {0};
         int[] timesTrue = new int[] {0};
         long[] startTime = new long[] {now()};
-        executeOverInterval(1000, NANO_IN_SEC, timesExecuted, timesTrue, startTime);
-        assertTrue("CanExec() should have executed 1000 times.", timesTrue[0] == 1000);
+        executeOverInterval(100, NANO_IN_SEC, timesExecuted, timesTrue, startTime);
+        assertEquals("CanExec() should have executed 100 times.", 100, timesTrue[0]);
     }
 
     @Test
@@ -33,26 +31,26 @@ public class RunLimiterTest {
         int[] timesExecuted = new int[] {0};
         int[] timesTrue = new int[] {0};
         long[] startTime = new long[] {now()};
-        executeOverInterval(100, NANO_IN_SEC * 1 / 10, timesExecuted, timesTrue, startTime);
-        assertEquals("CanExec() should have executed 100 times at this point.",
+        executeOverInterval(10, NANO_IN_SEC * 1 / 10, timesExecuted, timesTrue, startTime);
+        assertEquals("CanExec() should have executed 10 times at this point.",
+                10, timesExecuted[0]);
+        assertEquals("CanExec() should have been true 10 times at this point.",
+                10, timesTrue[0]);
+        executeOverInterval(10, NANO_IN_SEC * 9 / 10, timesExecuted, timesTrue, startTime);
+        assertEquals("CanExec() should have still executed 10 times at this point.",
+                10, timesExecuted[0]);
+        assertEquals("CanExec() should have still been true 10 times at this point.",
+                10, timesTrue[0]);
+        executeOverInterval(100, NANO_IN_SEC, timesExecuted, timesTrue, startTime);
+        assertEquals("CanExec() should have been executed 100 times at this point.",
                 100, timesExecuted[0]);
         assertEquals("CanExec() should have been true 100 times at this point.",
                 100, timesTrue[0]);
-        executeOverInterval(100, NANO_IN_SEC * 9 / 10, timesExecuted, timesTrue, startTime);
-        assertEquals("CanExec() should have still executed 100 times at this point.",
-                100, timesExecuted[0]);
-        assertEquals("CanExec() should have still been true 100 times at this point.",
-                100, timesTrue[0]);
-        executeOverInterval(1000, NANO_IN_SEC, timesExecuted, timesTrue, startTime);
-        assertEquals("CanExec() should have been executed 1000 times at this point.",
-                1000, timesExecuted[0]);
-        assertEquals("CanExec() should have been true 1000 times at this point.",
-                1000, timesTrue[0]);
-        executeOverInterval(1900, NANO_IN_SEC * 11 / 10, timesExecuted, timesTrue, startTime);
-        assertEquals("CanExec() should have been executed 1900 times at this point.",
-                1900, timesExecuted[0]);
-        /* assertTrue("CanExec() should have been true 1000 times at this point.",
-                timesTrue[0] == 1000); */
+        executeOverInterval(190, NANO_IN_SEC * 12 / 10, timesExecuted, timesTrue, startTime);
+        assertEquals("CanExec() should have been executed 190 times at this point.",
+                190, timesExecuted[0]);
+        /* assertEquals("CanExec() should have been true 100 times at this point.",
+                100, timesTrue[0]); */
     }
 
     private void executeOverInterval(int endTimesExecuted, long endTime /* nanoseconds */,

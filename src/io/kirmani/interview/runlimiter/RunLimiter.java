@@ -10,7 +10,7 @@ package io.kirmani.interview.runlimiter;
 import java.lang.System;
 
 public class RunLimiter {
-	private static final int LIMIT = 1000;
+	private static final int LIMIT = 100;
     private static final long NANO_IN_SEC = 1000000000;
 
     private static long startTime = 0;

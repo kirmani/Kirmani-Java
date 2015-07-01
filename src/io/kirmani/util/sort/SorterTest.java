@@ -5,7 +5,7 @@
  * Distributed under terms of the MIT license.
  */
 
-package io.kirmani.tools.sort;
+package io.kirmani.util.sort;
 
 import static org.junit.Assert.*;
 
@@ -22,13 +22,15 @@ public class SorterTest {
     @Test
     public void testIsSorted() {
         Integer[] arr = {-12, -5, 0, 1, 3, 4, 56, 1000};
-        assertEquals("arr should be sorted.", true, BaseSort.isSorted(arr));
+        List<Integer> list = Arrays.asList(arr);
+        assertEquals("List should be returned as sorted.", true, BaseSort.isSorted(list));
     }
 
     @Test
     public void testIsNotSorted() {
         Integer[] arr = {0, -5, -12, 1000, 56, 4, 3, 1};
-        assertEquals("arr should not be sorted.", false, BaseSort.isSorted(arr));
+        List<Integer> list = Arrays.asList(arr);
+        assertEquals("List should not be returned as sorted.", false, BaseSort.isSorted(list));
     }
 
     @Test
@@ -52,14 +54,22 @@ public class SorterTest {
     @Test
     public void testMergeSort() {
         List<Integer> list = getRandomUnsortedList();
-        testSort(list, InsertionSort.sort(list));
+        testSort(list, MergeSort.sort(list));
+    }
+
+    @Test
+    public void testQuickSort() {
+        List<Integer> list = getRandomUnsortedList();
+        testSort(list, QuickSort.sort(list));
     }
 
     private void testSort(List<Integer> list, List<Integer> sortedList) {
-        assertEquals("sort() didn't return the sorted list.",
-            true, BaseSort.isSorted(sortedList));
-        assertNotSame("sort() changed the original array.",
-            sortedList, list);
+        assertEquals("sort() returned an array of different length.", list.size(),
+                sortedList.size());
+        assertEquals("sort() didn't return a permutation of same elements of the original list.",
+                true, isPermutation(list, sortedList));
+        assertEquals("sort() didn't return the sorted list.", true, BaseSort.isSorted(sortedList));
+        assertNotSame("sort() changed the original array.", sortedList, list);
     }
 
     private List<Integer> getRandomList() {
@@ -77,6 +87,10 @@ public class SorterTest {
             list = getRandomList();
         }
         return list;
+    }
+
+    private boolean isPermutation(List<Integer> list1, List<Integer> list2) {
+        return list1.containsAll(list2) && list2.containsAll(list1);
     }
 
     private <E> void printList(List<E> list) {

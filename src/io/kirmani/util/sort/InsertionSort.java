@@ -5,11 +5,13 @@
  * Distributed under terms of the MIT license.
  */
 
-package io.kirmani.tools.sort;
+package io.kirmani.util.sort;
 
 import java.util.List;
 
 public class InsertionSort extends BaseSort {
+    private static final String TAG = InsertionSort.class.getSimpleName();
+
     public static <E extends Comparable<? super E>> List<E> sort(List<E> list) {
         List<E> copy = getCopy(list);
         for (int i = 0; i < copy.size(); i++) {
@@ -22,10 +24,15 @@ public class InsertionSort extends BaseSort {
         return copy;
     }
 
-    private static <E extends Comparable<? super E>> void swap(List<E> list, int startIndex, int swapIndex) {
+    private static <E extends Comparable<? super E>> void swap(List<E> list, int startIndex,
+            int swapIndex) {
         E temp = list.get(startIndex);
         list.set(startIndex, list.get(swapIndex));
         list.set(swapIndex, temp);
+    }
+
+    public static <E extends Comparable<? super E>> void printDiff(List<E> list) {
+        printDiff(TAG, list, sort(list));
     }
 }
 

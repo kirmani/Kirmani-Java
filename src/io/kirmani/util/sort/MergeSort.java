@@ -5,12 +5,14 @@
  * Distributed under terms of the MIT license.
  */
 
-package io.kirmani.tools.sort;
+package io.kirmani.util.sort;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MergeSort extends BaseSort {
+    private static final String TAG = MergeSort.class.getSimpleName();
+
     public static <E extends Comparable<? super E>> List<E> sort(List<E> list) {
         // Base case. A list of zero or one elements is sorted, by definition.
         if (list.size() <= 1) {
@@ -60,10 +62,7 @@ public class MergeSort extends BaseSort {
         return result;
     }
 
-    private static <E extends Comparable<? super E>> void printList(List<E> list) {
-        for (E item : list) {
-            System.out.println(item.toString());
-        }
+    public static <E extends Comparable<? super E>> void printDiff(List<E> list) {
+        printDiff(TAG, list, sort(list));
     }
 }
-

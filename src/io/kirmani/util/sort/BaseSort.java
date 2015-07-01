@@ -5,14 +5,17 @@
  * Distributed under terms of the MIT license.
  */
 
-package io.kirmani.tools.sort;
+package io.kirmani.util.sort;
 
-import java.lang.reflect.Array;
+import io.kirmani.util.logging.Log;
+
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaseSort {
+public abstract class BaseSort {
+    public static final String TAG = BaseSort.class.getSimpleName();
+
     public static <E extends Comparable<? super E>> List<E> sort(List<E> list) {
         return null;
     }
@@ -34,4 +37,14 @@ public class BaseSort {
         return isSorted(Arrays.asList(array));
     }
 
+    public static <E> void printDiff(String sortName, List<E> before, List<E> after) {
+        Log.i(TAG, String.format("List Before Sorting (%s)", sortName));
+        for (E item : before) {
+            Log.i(TAG, item.toString());
+        }
+        Log.i(TAG, String.format("List After Sorting (%s)", sortName));
+        for (E item : after) {
+            Log.i(TAG, item.toString());
+        }
+    }
 }
