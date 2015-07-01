@@ -9,18 +9,20 @@ package io.kirmani.tools.sort;
 
 import java.util.List;
 
-public class InsertionSort implements Sortable {
-    public <E extends Comparable<? super E>> void sort(List<E> list) {
-        for (int i = 0; i < list.size(); i++) {
+public class InsertionSort extends BaseSort {
+    public static <E extends Comparable<? super E>> List<E> sort(List<E> list) {
+        List<E> copy = getCopy(list);
+        for (int i = 0; i < copy.size(); i++) {
             int j = i;
-            while (j > 0 && list.get(j - 1).compareTo(list.get(j)) > 0) {
-                swap(list, j, j - 1);
+            while (j > 0 && copy.get(j - 1).compareTo(copy.get(j)) > 0) {
+                swap(copy, j, j - 1);
                 j--;
             }
         }
+        return copy;
     }
 
-    private <E> void swap(List<E> list, int startIndex, int swapIndex) {
+    private static <E extends Comparable<? super E>> void swap(List<E> list, int startIndex, int swapIndex) {
         E temp = list.get(startIndex);
         list.set(startIndex, list.get(swapIndex));
         list.set(swapIndex, temp);

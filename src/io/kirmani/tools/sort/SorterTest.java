@@ -22,127 +22,67 @@ public class SorterTest {
     @Test
     public void testIsSorted() {
         Integer[] arr = {-12, -5, 0, 1, 3, 4, 56, 1000};
-        assertEquals("arr should be sorted.", true, Sorter.isSorted(arr));
+        assertEquals("arr should be sorted.", true, BaseSort.isSorted(arr));
     }
 
     @Test
     public void testIsNotSorted() {
         Integer[] arr = {0, -5, -12, 1000, 56, 4, 3, 1};
-        assertEquals("arr should not be sorted.", false, Sorter.isSorted(arr));
+        assertEquals("arr should not be sorted.", false, BaseSort.isSorted(arr));
     }
 
     @Test
-    public void testBubbleSortOnArray() {
-        testSort(new BubbleSort(), true);
+    public void testBubbleSort() {
+        List<Integer> list = getRandomUnsortedList();
+        testSort(list, BubbleSort.sort(list));
     }
 
     @Test
-    public void testBubbleSortOnList() {
-        testSort(new BubbleSort(), false);
+    public void testSelectionSort() {
+        List<Integer> list = getRandomUnsortedList();
+        testSort(list, SelectionSort.sort(list));
     }
 
     @Test
-    public void testGetBubbleSortOnArray() {
-        testGetSort(new BubbleSort(), true);
+    public void testInsertionSort() {
+        List<Integer> list = getRandomUnsortedList();
+        testSort(list, InsertionSort.sort(list));
     }
 
     @Test
-    public void testGetBubbleSortOnList() {
-        testGetSort(new BubbleSort(), false);
+    public void testMergeSort() {
+        List<Integer> list = getRandomUnsortedList();
+        testSort(list, InsertionSort.sort(list));
     }
 
-    @Test
-    public void testSelectionSortOnArray() {
-        testSort(new SelectionSort(), true);
+    private void testSort(List<Integer> list, List<Integer> sortedList) {
+        assertEquals("sort() didn't return the sorted list.",
+            true, BaseSort.isSorted(sortedList));
+        assertNotSame("sort() changed the original array.",
+            sortedList, list);
     }
 
-    @Test
-    public void testSelectionSortOnList() {
-        testSort(new SelectionSort(), false);
-    }
-
-    @Test
-    public void testGetSelectionSortOnArray() {
-        testGetSort(new SelectionSort(), true);
-    }
-
-    @Test
-    public void testGetSelectionSortOnList() {
-        testGetSort(new SelectionSort(), false);
-    }
-
-    @Test
-    public void testInsertionSortOnArray() {
-        testSort(new InsertionSort(), true);
-    }
-
-    @Test
-    public void testInsertionSortOnList() {
-        testSort(new InsertionSort(), false);
-    }
-
-    @Test
-    public void testGetInsertionSortOnArray() {
-        testGetSort(new InsertionSort(), true);
-    }
-
-    @Test
-    public void testGetInsertionSortOnList() {
-        testGetSort(new InsertionSort(), false);
-    }
-
-    private void testSort(Sortable sorter, boolean isArray) {
-        String simpleName = sorter.getClass().getSimpleName();
-        Integer[] arr = getRandomUnsortedArr();
-        List<Integer> list = Arrays.asList(arr);
-        if (isArray) {
-            Sorter.sort(sorter, arr);
-            assertEquals(String.format("sort() for %s on array failed.", simpleName),
-                    true, Sorter.isSorted(arr));
-        } else {
-            Sorter.sort(sorter, list);
-            assertEquals(String.format("sort() for %s on list failed.", simpleName),
-                    true, Sorter.isSorted(list));
-        }
-    }
-
-    private void testGetSort(Sortable sorter, boolean isArray) {
-        String simpleName = sorter.getClass().getSimpleName();
-        Integer[] arr = getRandomUnsortedArr();
-        Integer[] originalArr = new Integer[SIZE];
-        System.arraycopy(arr, 0, originalArr, 0, SIZE);
-        List<Integer> list = Arrays.asList(arr);
-        List<Integer> originalList = new ArrayList<>(list);
-        if (isArray) {
-            Integer[] sortedArr = Sorter.getSortedArray(sorter, arr);
-            assertEquals(String.format("getSort() for %s didn't return sorted array.", simpleName),
-                    true, Sorter.isSorted(sortedArr));
-            assertNotSame(String.format("getSort() for %s changed original array.", simpleName),
-                    originalArr, arr);
-        } else {
-            List<Integer> sortedList = Sorter.getSortedList(sorter, list);
-            assertEquals(String.format("getSort() for %s didn't return the sorted list.", simpleName),
-                    true, Sorter.isSorted(sortedList));
-            assertNotSame(String.format("getSort() for %s changed the original array.", simpleName),
-                    originalList, list);
-        }
-    }
-
-    private Integer[] getRandomArr() {
+    private List<Integer> getRandomList() {
         Random random = new Random();
-        Integer[] result = new Integer[SIZE];
-        for (int index = 0; index < result.length; index++) {
-            result[index] = random.nextInt();
+        List<Integer> list = new ArrayList<Integer>(SIZE);
+        for (int i = 0; i < SIZE; i++) {
+            list.add(random.nextInt());
         }
-        return result;
+        return list;
     }
 
-    private Integer[] getRandomUnsortedArr() {
-        Integer[] result = getRandomArr();
-        while (Sorter.isSorted(result)) {
-            result = getRandomArr();
+    private List<Integer> getRandomUnsortedList() {
+        List<Integer> list = getRandomList();
+        while (BaseSort.isSorted(list)) {
+            list = getRandomList();
         }
-        return result;
+        return list;
+    }
+
+    private <E> void printList(List<E> list) {
+        for (E item : list) {
+            System.out.println(item.toString());
+        }
     }
 }
 
