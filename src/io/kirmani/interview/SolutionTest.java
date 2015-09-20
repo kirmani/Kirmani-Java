@@ -7,12 +7,14 @@
 
 package io.kirmani.interview;
 
-import java.io.*;
-import java.util.*;
-import java.text.*;
-import java.math.*;
-import java.util.regex.*;
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import java.nio.file.Paths;
 
 public class SolutionTest {
@@ -81,21 +83,6 @@ public class SolutionTest {
 
     private static String streamString(InputStream inputStream) throws IOException {
         return new Scanner(inputStream, "UTF-8").useDelimiter("\\A").next();
-    }
-
-    private static boolean contentEqual(InputStream expected, InputStream actual)
-            throws IOException {
-        int currentExpectedChar = expected.read();
-        int currentActualChar;
-        while (-1 != currentExpectedChar) {
-            currentActualChar = actual.read();
-            if (currentExpectedChar != currentActualChar) {
-                return false;
-            }
-            currentExpectedChar = expected.read();
-        }
-        currentActualChar = actual.read();
-        return (currentActualChar == -1);
     }
 
     private static List<TestCase> getTestCases(String directory) {
