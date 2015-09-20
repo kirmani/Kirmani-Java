@@ -1,10 +1,11 @@
 <project name="kirmani_io" basedir="." default="main">
     <property name="src.dir" value="src" />
-    
+
     <property name="build.dir" value="build" />
     <property name="classes.dir" value="${build.dir}/classes" />
     <property name="jar.dir" value="${build.dir}/jar" />
     <property name="main-class" value="io.kirmani.HelloWorld" />
+    <property name="interview-class" value="io.kirmani.interview.SolutionTest" />
 
     <property name="lib.dir" value="lib" />
 
@@ -17,7 +18,7 @@
     <target name="clean">
         <delete dir="${build.dir}" />
     </target>
-    
+
     <target name="compile" depends="clean">
         <mkdir dir="${classes.dir}" />
         <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false" debug="on" />
@@ -25,7 +26,7 @@
             <fileset dir="${src.dir}" excludes="**/*.java" />
         </copy>
     </target>
-    
+
     <target name="jar" depends="compile">
         <mkdir dir="${jar.dir}" />
         <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
@@ -34,7 +35,7 @@
             </manifest>
         </jar>
     </target>
-    
+
     <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
 
     <target name="run" depends="jar">
@@ -45,7 +46,17 @@
             </classpath>
         </java>
     </target>
-    
+
+    <target name="interview" depends="jar">
+        <java fork="true" classname="${interview-class}">
+            <classpath>
+                <path refid="classpath" />
+                <path refid="application" />
+            </classpath>
+        </java>
+      </target>
+
+
     <target name="test" depends="jar">
         <mkdir dir="${report.dir}" />
         <junit printsummary="yes">
@@ -75,4 +86,5 @@
     <target name="clean-build" depends="clean,jar" />
 
     <target name="main" depends="clean,run" />
+
 </project>
