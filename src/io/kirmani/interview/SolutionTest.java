@@ -69,9 +69,9 @@ public class SolutionTest {
             System.out.println(String.format("Input (stdin)", testCase.getIndex()));
             System.out.println(input);
             System.out.println(String.format("Your Output (stdout)", testCase.getIndex()));
-            System.out.println(expected);
+            System.out.println(actual);
             System.out.println(String.format("Expected Output", testCase.getIndex()));
-            System.out.print(actual);
+            System.out.print(expected);
             System.out.println(String.format("%s%n", FAILURE_DELIMITER));
         } else {
             System.out.println(String.format("Test Case #%d PASSED", testCase.getIndex()));
